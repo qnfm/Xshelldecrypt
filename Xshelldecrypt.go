@@ -10,12 +10,7 @@ import (
 	"golang.org/x/example/hello/reverse"
 )
 
-func main() {
-	// base64 encoded password in section [CONNECTION:AUTHENTICATION] (assume xshell version is 7)
-	pwd := "Sollqu5z+Dhux1uSRugMjKD6KVLgCLcT90k2I2Pn+5W3LteibiFSctjsU73PcZ+eexPJYTdNxeUxtZiHIdGJDg=="
-	// can be dumped via $ whoami /user under command prompt Windows
-	name := "User name"                                    //Current User Name without domain
-	sid := "S-1-8-14-1473199394-147319939-1473199394-5254" // current SID
+func Recovery(name, sid, pwd string) {
 
 	ikm := reverse.String(sid) + name
 	decoded, err := base64.StdEncoding.DecodeString(pwd)
