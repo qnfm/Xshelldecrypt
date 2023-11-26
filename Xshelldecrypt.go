@@ -6,13 +6,24 @@ import (
 	"crypto/subtle"
 	"encoding/base64"
 	"fmt"
+	"os/user"
+	"strings"
 
 	"golang.org/x/example/hello/reverse"
 )
 
-func Recovery(name, sid, pwd string) {
+func Recovery(pwd string) {
+	curr, err := user.Current()
+	if err != nil {
+		fmt.Println("error:", err)
+		return
+	}
 
-	ikm := reverse.String(sid) + name
+	// Trim the domain
+	split := strings.SplitAfter(curr.Username, "\\")
+	name := split[len(split)-1]
+
+	ikm := reverse.String(curr.Uid) + name
 	decoded, err := base64.StdEncoding.DecodeString(pwd)
 	if err != nil {
 		fmt.Println("error:", err)
